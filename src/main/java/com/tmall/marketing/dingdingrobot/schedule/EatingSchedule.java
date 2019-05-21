@@ -9,7 +9,11 @@ import com.tmall.marketing.dingdingrobot.util.WeatherHelper;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.EnumSet;
 import java.util.List;
 
 @Component
@@ -17,6 +21,15 @@ public class EatingSchedule {
 
     @Scheduled(cron = "0 55 11,17 * * ?")
     public void sendEatingMsg(){
+
+        LocalDateTime localDateTime=LocalDateTime.now();
+        DayOfWeek dayOfWeek = localDateTime.getDayOfWeek();
+        EnumSet<DayOfWeek> enumSet=EnumSet.of(DayOfWeek.SATURDAY,DayOfWeek.SUNDAY);
+        // 双休日不通知
+        if (enumSet.contains(dayOfWeek)){
+            return;
+        }
+        // FIXME: 法定节假日，比如国庆、五一等
 
         // 获取天气
         WeatherDO weather = WeatherHelper.getWeather();
@@ -47,8 +60,7 @@ public class EatingSchedule {
         MessageHelper.sendMarkDownMsgToXiaoDai("吃饭助手",list);
 
         // 每次调用完毕后重置
-        LocalTime localTime=LocalTime.now();
-        int hour = localTime.getHour();
+        int hour = localDateTime.getHour();
         CommonFields.willPresent[0]=true;
         CommonFields.willPresent[1]=true;
         // 中午触发，重置代表晚上，默认不一起吃。晚上触发，重置代表中午，默认一起吃。
