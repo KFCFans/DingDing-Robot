@@ -1,0 +1,100 @@
+package com.tmall.marketing.dingdingrobot.util;
+
+import com.dingtalk.api.DefaultDingTalkClient;
+import com.dingtalk.api.DingTalkClient;
+import com.dingtalk.api.request.OapiRobotSendRequest;
+import com.dingtalk.api.response.OapiRobotSendResponse;
+import com.google.common.collect.Lists;
+import com.tmall.marketing.dingdingrobot.model.ResultDTO;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
+import org.springframework.util.StringUtils;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class MessageHelper {
+
+    @Data
+    @AllArgsConstructor
+    public static class MarkDownEntity{
+        private String title;
+        private String detail;
+    }
+
+    /**
+     * 让小呆发送简单文本消息
+     * @param msg 需要发送的消息
+     * @param atList @人的名单，用逗号隔开，如12345678900,12345678901
+     * @throws Exception 抛出异常让上层处理
+     * @return 发送结果
+     */
+    public static ResultDTO<String> sendTextMsgToXiaoDai(String msg, String atList){
+        DingTalkClient client = new DefaultDingTalkClient(CommonFields.OAIP_ADDRESS);
+        OapiRobotSendRequest request = new OapiRobotSendRequest();
+        request.setMsgtype("text");
+        OapiRobotSendRequest.Text text = new OapiRobotSendRequest.Text();
+        text.setContent(msg);
+        request.setText(text);
+
+        // 设置需要被@的人
+        if (!StringUtils.isEmpty(atList)){
+            OapiRobotSendRequest.At at = new OapiRobotSendRequest.At();
+            String[] atListArr=atList.split(",");
+            List<String> list= Arrays.stream(atListArr).collect(Collectors.toList());
+            at.setAtMobiles(list);
+            request.setAt(at);
+        }
+
+        OapiRobotSendResponse response;
+
+        try {
+            response = client.execute(request);
+        }catch (Exception e){
+            // FIXME： 记录日志
+            return ResultDTO.failed(e.getMessage());
+        }
+
+        if (response.isSuccess()) {
+            return ResultDTO.success(null);
+        }
+        else {
+            // FIXME： 记录日志
+            return ResultDTO.failed(response.getErrmsg());
+        }
+    }
+
+    /**
+     * 让小呆发送MarkDown格式的信息
+     * @param title 大标题
+     * @param entities 小标题+内容
+     * @return 结果
+     */
+    public static ResultDTO<String> sendMarkDownMsgToXiaoDai(String title, List<MarkDownEntity> entities){
+        DingTalkClient client = new DefaultDingTalkClient(CommonFields.OAIP_ADDRESS);
+        OapiRobotSendRequest request = new OapiRobotSendRequest();
+        request.setMsgtype("markdown");
+        OapiRobotSendRequest.Markdown markdown = new OapiRobotSendRequest.Markdown();
+        markdown.setTitle(title);
+        StringBuilder mdBuilder=new StringBuilder();
+        mdBuilder.append("## ").append(title).append("\n");
+        for (MarkDownEntity entity:entities){
+            mdBuilder.append("#### ").append(entity.getTitle()).append("\n");
+            mdBuilder.append("> ").append(entity.getDetail()).append("\n");
+        }
+        markdown.setText(mdBuilder.toString());
+        request.setMarkdown(markdown);
+        OapiRobotSendResponse response;
+        try {
+            response = client.execute(request);
+        }catch (Exception e){
+            // FIXME： 记录日志
+            return ResultDTO.failed(e.getMessage());
+        }
+
+        return ResultDTO.success(null);
+    }
+
+}

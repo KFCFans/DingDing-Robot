@@ -1,0 +1,7 @@
+server:
+  port: 7777
+
+spring:
+  application:
+    name: Eating-Helper
+
