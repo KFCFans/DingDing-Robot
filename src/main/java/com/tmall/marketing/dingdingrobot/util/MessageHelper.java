@@ -82,7 +82,7 @@ public class MessageHelper {
         mdBuilder.append("## ").append(title).append("\n");
         for (MarkDownEntity entity:entities){
             mdBuilder.append("#### ").append(entity.getTitle()).append("\n");
-            mdBuilder.append("> ").append(entity.getDetail()).append("\n");
+            mdBuilder.append("> ").append(entity.getDetail()).append("\n\n");
         }
         markdown.setText(mdBuilder.toString());
         request.setMarkdown(markdown);

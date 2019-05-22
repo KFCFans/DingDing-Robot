@@ -19,7 +19,7 @@ import java.util.List;
 @Component
 public class EatingSchedule {
 
-    @Scheduled(cron = "0 55 11,17 * * ?")
+    @Scheduled(cron = "0 45 11,17 * * ?")
     public void sendEatingMsg(){
 
         LocalDateTime localDateTime=LocalDateTime.now();
@@ -53,11 +53,11 @@ public class EatingSchedule {
         }
         String members="无。今天是各奔东西的一天～";
         if (sb.length()!=0){
-            members=sb.deleteCharAt(sb.length()).toString();
+            members=sb.deleteCharAt(sb.length()-1).toString();
         }
-        list.add(new MessageHelper.MarkDownEntity("吃饭人员",members));
+        list.add(new MessageHelper.MarkDownEntity("觅食人员",members));
 
-        MessageHelper.sendMarkDownMsgToXiaoDai("吃饭助手",list);
+        MessageHelper.sendMarkDownMsgToXiaoDai("小呆觅食助手",list);
 
         // 每次调用完毕后重置
         int hour = localDateTime.getHour();
