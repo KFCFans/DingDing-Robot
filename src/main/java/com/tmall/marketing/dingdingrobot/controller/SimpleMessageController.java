@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class SimpleMessageController {
 
     @RequestMapping("/msg")
-    public ResultDTO<String> sendSimpleMsg(String msg){
+    public ResultDTO<String> sendSimpleMsg(String msg,String atList){
         ResultDTO<String> res;
         try {
-            res = MessageHelper.sendTextMsgToXiaoDai(msg,null);
+            res = MessageHelper.sendTextMsgToXiaoDai(msg,atList);
         }catch (Exception e){
             res=ResultDTO.failed(e.getMessage());
         }
