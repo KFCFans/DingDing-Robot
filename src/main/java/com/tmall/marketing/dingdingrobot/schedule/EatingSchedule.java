@@ -64,7 +64,7 @@ public class EatingSchedule {
         CommonFields.willPresent[0]=true;
         CommonFields.willPresent[1]=true;
         // 中午触发，重置代表晚上，默认不一起吃。晚上触发，重置代表中午，默认一起吃。
-        CommonFields.willPresent[2]=hour<11?false:true;
+        CommonFields.willPresent[2]=hour<=11?false:true;
 
     }
 
