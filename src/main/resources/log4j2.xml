@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--status：设置log4j2自身的日志输出级别，低于warn的不输出;monitorInterval：每个多久重新加载配置文件-->
+<Configuration status="warn" monitorInterval="3600">
+
+    <Appenders>
+        <!--输出到控制台的配置-->
+        <Console name="ZqqConsole" target="SYSTEM_OUT">
+            <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n"/>
+        </Console>
+
+        <!--输出到普通文件-->
+        <File name="ZqqFile" fileName="/zqq/robot.log" append="true" immediateFlush="false" bufferedIO="true" bufferSize="8096">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </File>
+
+        <!--输出到循环文件（到一定大小后自动写到一个新的文件，方便归档）-->
+        <RollingFile name="ZqqRollingFile" fileName="/zqq/init.log" filePattern="/zqq/robot-%d{yyyy-MM-dd_HH-mm}-%i.out">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            <!--日志滚动策略：-->
+            <Policies>
+                <!--表示日志文件按照设置的时间点来进行滚动（277M后写入新日志文件）,也可选按时间滚动（TimeBasedTriggeringPolicy）-->
+                <SizeBasedTriggeringPolicy size="277 mb"/>
+            </Policies>
+            <!--保存的日志文件最大数量-->
+            <DefaultRolloverStrategy max="5"/>
+            <Filters>
+                <!--过滤器，当该日志等级>=level等级时，执行onMatch策略，否则执行onMismatch策略 -->
+                <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+        </RollingFile>
+
+        <!--将ZqqRollingFile"升级"为异步Appender，includeLocation表示是否输出位置（比如ZqqController.java:23），开启会影响性能-->
+        <Async level="info" name="Async" includeLocation="false">
+            <AppenderRef ref="ZqqRollingFile"/>
+        </Async>
+
+
+
+    </Appenders>
+    <Loggers></Loggers>
+</Configuration>

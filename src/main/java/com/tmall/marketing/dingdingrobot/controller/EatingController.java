@@ -1,22 +1,29 @@
 package com.tmall.marketing.dingdingrobot.controller;
 
 import com.tmall.marketing.dingdingrobot.util.CommonFields;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.DriverManager;
 import java.time.LocalTime;
 import java.util.Arrays;
+import java.util.ServiceLoader;
 
 @RestController
 @RequestMapping("/eat")
 public class EatingController {
 
-    @RequestMapping("/init")
+    private Logger logger=LoggerFactory.getLogger(EatingController.class);
+
+   @RequestMapping("/init")
     public String initNameArray(String names){
         CommonFields.NAMEARRAY=names.split(",");
         return Arrays.stream(CommonFields.NAMEARRAY).reduce((m1, m2) -> m1 + m2).get();
+
     }
 
     /*
@@ -41,6 +48,8 @@ public class EatingController {
         }
         CommonFields.willPresent[index]=!CommonFields.willPresent[index];
         String flag=CommonFields.willPresent[index]?"一起吃":"不一起吃";
+
+
         return "您的选择是："+flag+"。";
     }
 
