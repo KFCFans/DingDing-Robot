@@ -6,6 +6,7 @@ import com.tmall.marketing.dingdingrobot.util.CommonFields;
 import com.tmall.marketing.dingdingrobot.util.EatingHelper;
 import com.tmall.marketing.dingdingrobot.util.MessageHelper;
 import com.tmall.marketing.dingdingrobot.util.WeatherHelper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -13,10 +14,12 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
 
 @Component
+@Slf4j
 public class EatingSchedule {
 
     @Scheduled(cron = "0 45 11,17 * * ?")
@@ -41,7 +44,8 @@ public class EatingSchedule {
 
         List<MessageHelper.MarkDownEntity> list= Lists.newArrayList();
         // 添加吃饭地点
-        list.add(new MessageHelper.MarkDownEntity("今日餐厅", EatingHelper.whereToEat(weather)));
+        EatingHelper.Restaurant restaurant = EatingHelper.whereToEat(weather);
+        list.add(new MessageHelper.MarkDownEntity("今日餐厅",restaurant.getDescription()));
         // 添加天气预报,eg:阴,22度,东南风1级,相对湿度57%
         list.add(new MessageHelper.MarkDownEntity("天气播报",weather.getXiaoDaiWeather()));
         // 添加吃饭人数
@@ -59,13 +63,22 @@ public class EatingSchedule {
 
         MessageHelper.sendMarkDownMsgToXiaoDai("小呆觅食助手",list);
 
+        // 记录日志方便统计
+        log.info("推荐地点:{}[{}]|人员:{}",restaurant.getIndex(),restaurant.getDescription(),members);
+
         // 每次调用完毕后重置
         int hour = localDateTime.getHour();
         CommonFields.willPresent[0]=true;
         CommonFields.willPresent[1]=true;
         // 中午触发，重置代表晚上，默认不一起吃。晚上触发，重置代表中午，默认一起吃。
         CommonFields.willPresent[2]=hour<=11?false:true;
-
     }
 
+    // 每天早上5点清空点击信息
+    @Scheduled(cron = "0 0 5 * * ? ")
+    public void initWillPresent(){
+        for (int i=0;i<CommonFields.willPresent.length;i++){
+            CommonFields.willPresent[i]=true;
+        }
+    }
 }

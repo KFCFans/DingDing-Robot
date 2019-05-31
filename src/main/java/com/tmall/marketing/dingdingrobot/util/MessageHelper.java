@@ -4,17 +4,17 @@ import com.dingtalk.api.DefaultDingTalkClient;
 import com.dingtalk.api.DingTalkClient;
 import com.dingtalk.api.request.OapiRobotSendRequest;
 import com.dingtalk.api.response.OapiRobotSendResponse;
-import com.google.common.collect.Lists;
 import com.tmall.marketing.dingdingrobot.model.ResultDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class MessageHelper {
 
     @Data
@@ -53,15 +53,15 @@ public class MessageHelper {
         try {
             response = client.execute(request);
         }catch (Exception e){
-            // FIXME： 记录日志
+            log.error(e.getMessage());
             return ResultDTO.failed(e.getMessage());
         }
 
         if (response.isSuccess()) {
-            return ResultDTO.success(null);
+            return ResultDTO.success(response.getMessage());
         }
         else {
-            // FIXME： 记录日志
+            log.error(response.getErrmsg());
             return ResultDTO.failed(response.getErrmsg());
         }
     }
@@ -90,11 +90,11 @@ public class MessageHelper {
         try {
             response = client.execute(request);
         }catch (Exception e){
-            // FIXME： 记录日志
+            log.error(e.getMessage());
             return ResultDTO.failed(e.getMessage());
         }
 
-        return ResultDTO.success(null);
+        return ResultDTO.success(response.getMessage());
     }
 
 }
