@@ -5,16 +5,16 @@
     <Appenders>
         <!--输出到控制台的配置-->
         <Console name="ZqqConsole" target="SYSTEM_OUT">
-            <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n"/>
+            <PatternLayout pattern="%highlight{%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n}{FATAL=red, ERROR=red, WARN=yellow, INFO=cyan, DEBUG=cyan,TRACE=blue}"/>
         </Console>
 
         <!--输出到普通文件-->
-        <File name="ZqqFile" fileName="/zqq/robot.log" append="true" immediateFlush="false" bufferedIO="true" bufferSize="8096">
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
-        </File>
+<!--        <File name="ZqqFile" fileName="/zqq/robot.log" append="true" immediateFlush="false" bufferedIO="true" bufferSize="8096">-->
+<!--            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>-->
+<!--        </File>-->
 
         <!--输出到循环文件（到一定大小后自动写到一个新的文件，方便归档）-->
-        <RollingFile name="ZqqRollingFile" fileName="/zqq/init.log" filePattern="/zqq/robot-%d{yyyy-MM-dd_HH-mm}-%i.out">
+        <RollingFile name="ZqqRollingFile" fileName="/Users/tjq/Desktop/init.log" filePattern="/zqq/robot-%d{yyyy-MM-dd_HH-mm}-%i.out">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
             <!--日志滚动策略：-->
             <Policies>
@@ -30,12 +30,22 @@
         </RollingFile>
 
         <!--将ZqqRollingFile"升级"为异步Appender，includeLocation表示是否输出位置（比如ZqqController.java:23），开启会影响性能-->
-        <Async level="info" name="Async" includeLocation="false">
+        <Async name="ZqqAsync" includeLocation="false">
             <AppenderRef ref="ZqqRollingFile"/>
         </Async>
-
-
-
     </Appenders>
-    <Loggers></Loggers>
+
+    <!--定义Logger，只有定义Logger并为其引入Appender，Appender才会生效-->
+    <Loggers>
+        <!--单独指定日志的形式，name用来指定该Logger适用的类或所在包的全路径-->
+        <Logger name="org.springframework" level="INFO"/>
+
+        <!--项目的根日志，如果没有单独指定Logger，则使用root-->
+        <root level="all">
+            <appender-ref ref="ZqqConsole"/>
+            <appender-ref ref="ZqqRollingFile"/>
+        </root>
+    </Loggers>
+
+
 </Configuration>
