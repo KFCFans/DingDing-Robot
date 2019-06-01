@@ -26,6 +26,7 @@ public class EatingSchedule {
     public void sendEatingMsg(){
 
         LocalDateTime localDateTime=LocalDateTime.now();
+        int hour = localDateTime.getHour();
         DayOfWeek dayOfWeek = localDateTime.getDayOfWeek();
         EnumSet<DayOfWeek> enumSet=EnumSet.of(DayOfWeek.SATURDAY,DayOfWeek.SUNDAY);
         // 双休日不通知
@@ -44,7 +45,7 @@ public class EatingSchedule {
 
         List<MessageHelper.MarkDownEntity> list= Lists.newArrayList();
         // 添加吃饭地点
-        EatingHelper.Restaurant restaurant = EatingHelper.whereToEat(weather);
+        EatingHelper.Restaurant restaurant = EatingHelper.whereToEat(weather, hour <= 11);
         list.add(new MessageHelper.MarkDownEntity("今日餐厅",restaurant.getDescription()));
         // 添加天气预报,eg:阴,22度,东南风1级,相对湿度57%
         list.add(new MessageHelper.MarkDownEntity("天气播报",weather.getXiaoDaiWeather()));
@@ -67,7 +68,6 @@ public class EatingSchedule {
         log.info("推荐地点:{}[{}]|人员:{}",restaurant.getIndex(),restaurant.getDescription(),members);
 
         // 每次调用完毕后重置
-        int hour = localDateTime.getHour();
         CommonFields.willPresent[0]=true;
         CommonFields.willPresent[1]=true;
         // 中午触发，重置代表晚上，默认不一起吃。晚上触发，重置代表中午，默认一起吃。

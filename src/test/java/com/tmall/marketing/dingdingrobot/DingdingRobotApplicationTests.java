@@ -31,8 +31,11 @@ public class DingdingRobotApplicationTests {
 
     @Test
     public void testEat(){
-        for (int i=0;i<3;i++){
-            System.out.println(EatingHelper.whereToEat(WeatherHelper.getWeather()));
+        for (int i=0;i<10;i++){
+            System.out.println("AM" + ":" + EatingHelper.whereToEat(WeatherHelper.getWeather(), true).getDescription());
+        }
+        for (int i=0;i<10;i++){
+            System.out.println("PM" + ":" + EatingHelper.whereToEat(WeatherHelper.getWeather(), false).getDescription());
         }
     }
 
