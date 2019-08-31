@@ -11,4 +11,5 @@ public class CommonFields {
     // 吃饭小分队
     public static String[] NAMEARRAY=null;
     public static boolean[] willPresent={true,true,true};
+
 }

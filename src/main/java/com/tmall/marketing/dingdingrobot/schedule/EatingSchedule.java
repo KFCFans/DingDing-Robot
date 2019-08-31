@@ -18,8 +18,8 @@ import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
 
-@Component
 @Slf4j
+@Component
 public class EatingSchedule {
 
     @Scheduled(cron = "0 45 11,17 * * ?")
