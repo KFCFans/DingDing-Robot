@@ -46,8 +46,8 @@ public class DetectionService {
                 .build();
         Call call = okHttpClient.newCall(request);
 
-        try {
-            Response response = call.execute();
+        try (Response response = call.execute()) {
+
             if (response.isSuccessful()) {
                 return;
             }
