@@ -9,7 +9,6 @@ import com.tmall.marketing.dingdingrobot.powerjob.persistence.repository.AppInfo
 import com.tmall.marketing.dingdingrobot.powerjob.persistence.repository.ContainerInfoRepository;
 import com.tmall.marketing.dingdingrobot.powerjob.persistence.repository.JobInfoRepository;
 import com.tmall.marketing.dingdingrobot.powerjob.persistence.repository.WorkflowInfoRepository;
-import okhttp3.WebSocket;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -68,24 +67,15 @@ public class ResetService {
         appInfoRepository.saveAndFlush(appInfo);
     }
 
-    @Scheduled(cron = "0 0/30 * * * ? ")
+    @Scheduled(cron = "0 0/5 * * * ? ")
     public void resetContainer() {
-
-        Optional<ContainerInfoDO> containerOpt = containerInfoRepository.findById(1L);
-        if (containerOpt.isPresent()) {
-            ContainerInfoDO containerInfo = containerOpt.get();
-            containerInfo.setStatus(1);
-            containerInfo.setGmtModified(new Date());
-            containerInfoRepository.saveAndFlush(containerInfo);
-            return;
-        }
 
         ContainerInfoDO container = new ContainerInfoDO();
         container.setId(1L);
         container.setAppId(1L);
         container.setContainerName("gitee-container");
         container.setStatus(1);
-        container.setVersion("init");
+        container.setVersion(ConfigCenter.powerjobContainerVersion);
         container.setLastDeployTime(new Date());
         container.setSourceType(2);
         container.setSourceInfo("{\"repo\":\"https://gitee.com/KFCFans/OhMyScheduler-Container-Template\",\"branch\":\"master\",\"username\":\"\",\"password\":\"\"}");

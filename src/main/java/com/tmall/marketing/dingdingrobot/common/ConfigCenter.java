@@ -20,6 +20,7 @@ public class ConfigCenter {
 
     public static String powerjobAppName;
     public static String powerjobBaseURL;
+    public static String powerjobContainerVersion;
 
     public ConfigCenter() throws Exception {
         load0();
@@ -46,6 +47,7 @@ public class ConfigCenter {
 
             powerjobBaseURL = properties.getProperty("powerjob.base.url");
             powerjobAppName = properties.getProperty("powerjob.try.appname");
+            powerjobContainerVersion = properties.getProperty("powerjob.container.version");
         }
     }
 
