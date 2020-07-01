@@ -3,6 +3,8 @@
 <!--status：设置log4j2自身的日志输出级别，低于warn的不输出;monitorInterval：每个多久重新加载配置文件-->
 <Configuration status="warn" monitorInterval="3600">
 
+    <property name="LOG_PATH" value="${user.home}/robot/logs"/>
+
     <Appenders>
         <!--输出到控制台的配置-->
         <Console name="ZqqConsole" target="SYSTEM_OUT">
@@ -10,7 +12,7 @@
         </Console>
 
         <!--输出到循环文件（到一定大小后自动写到一个新的文件，方便归档）-->
-        <RollingFile name="ZqqRollingFile" fileName="/home/tjq/robot/log/init.log" filePattern="/home/tjq/robot/log/robot-%d{yyyy-MM-dd_HH-mm}-%i.out">
+        <RollingFile name="ZqqRollingFile" fileName="${LOG_PATH}/init.log" filePattern="${LOG_PATH}/robot-%d{yyyy-MM-dd_HH-mm}-%i.out">
             <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level --- [%15t] %logger{36} : %msg%n"/>
             <!--日志滚动策略：-->
             <Policies>
@@ -27,7 +29,7 @@
 
         <!--记录小呆每日推荐食堂，统计概率-->
         <!-- 如果filePattern中仅含有整数计数器（即%i），每次rollover时，文件重命名时的计数器将每次加1（初始值为1），若达到max的值，将删除旧的文件-->
-        <RollingFile name="DaiRollingFile" fileName="/home/tjq/robot/log/recommend.log" filePattern="/home/tjq/robot/log/recommend-%i.log">
+        <RollingFile name="DaiRollingFile" fileName="${LOG_PATH}/recommend.log" filePattern="${LOG_PATH}/recommend-%i.log">
             <PatternLayout pattern="%d{yyyy-MM-dd HH:mm}:%msg%n"/>
             <Policies>
                 <SizeBasedTriggeringPolicy size="277 mb"/>
@@ -52,7 +54,7 @@
         </Logger>
 
         <!--项目的根日志，如果没有单独指定Logger，则使用root-->
-        <root level="all">
+        <root level="INFO">
             <appender-ref ref="ZqqConsole"/>
             <appender-ref ref="ZqqAsync"/>
         </root>

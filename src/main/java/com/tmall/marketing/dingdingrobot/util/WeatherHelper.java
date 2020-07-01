@@ -27,7 +27,7 @@ public class WeatherHelper {
 
             }else {
                 // 由小呆发送失败原因
-                MessageHelper.sendTextMsgToXiaoDai("获取天气失败："+response.toString(),null);
+                MessageHelper.sendTextMsgToXiaoDai("获取天气失败："+response.toString(),null, MessageHelper.DAI_CLIENT);
                 log.error(response.toString());
 
             }
@@ -35,7 +35,7 @@ public class WeatherHelper {
             log.error(e.getMessage());
             // 由小呆发送错误信息
             try {
-                MessageHelper.sendTextMsgToXiaoDai("获取天气异常："+e.getMessage(),null);
+                MessageHelper.sendTextMsgToXiaoDai("获取天气异常："+e.getMessage(),null, MessageHelper.DAI_CLIENT);
             }catch (Exception ignore){
                 // 自生自灭吧，小呆～
             }

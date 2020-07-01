@@ -1,0 +1,30 @@
+2020-07-01 09:24:07.597 INFO  --- [           main] com.tmall.marketing.dingdingrobot.DingdingRobotApplication : Starting DingdingRobotApplication on localhost with PID 76199 (/Users/tjq/Documents/code/DingDing-Robot/target/classes started by tjq in /Users/tjq/Documents/code/DingDing-Robot)
+2020-07-01 09:24:07.598 INFO  --- [           main] com.tmall.marketing.dingdingrobot.DingdingRobotApplication : No active profile set, falling back to default profiles: default
+2020-07-01 09:24:08.368 INFO  --- [           main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer : Tomcat initialized with port(s): 7777 (http)
+2020-07-01 09:24:08.385 INFO  --- [           main] org.apache.coyote.http11.Http11NioProtocol : Initializing ProtocolHandler ["http-nio-7777"]
+2020-07-01 09:24:08.394 INFO  --- [           main] org.apache.catalina.core.StandardService : Starting service [Tomcat]
+2020-07-01 09:24:08.395 INFO  --- [           main] org.apache.catalina.core.StandardEngine : Starting Servlet engine: [Apache Tomcat/9.0.19]
+2020-07-01 09:24:08.469 INFO  --- [           main] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] : Initializing Spring embedded WebApplicationContext
+2020-07-01 09:24:08.469 INFO  --- [           main] org.springframework.web.context.ContextLoader : Root WebApplicationContext: initialization completed in 830 ms
+2020-07-01 09:24:08.634 INFO  --- [           main] org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor : Initializing ExecutorService 'applicationTaskExecutor'
+2020-07-01 09:24:08.737 INFO  --- [           main] org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler : Initializing ExecutorService 'taskScheduler'
+2020-07-01 09:24:08.763 INFO  --- [           main] org.apache.coyote.http11.Http11NioProtocol : Starting ProtocolHandler ["http-nio-7777"]
+2020-07-01 09:24:08.781 INFO  --- [           main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer : Tomcat started on port(s): 7777 (http) with context path ''
+2020-07-01 09:24:08.785 INFO  --- [           main] com.tmall.marketing.dingdingrobot.DingdingRobotApplication : Started DingdingRobotApplication in 1.525 seconds (JVM running for 2.496)
+2020-07-01 09:24:32.486 INFO  --- [       Thread-2] org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler : Shutting down ExecutorService 'taskScheduler'
+2020-07-01 09:24:32.487 INFO  --- [       Thread-2] org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor : Shutting down ExecutorService 'applicationTaskExecutor'
+2020-07-01 09:25:13.607 INFO  --- [           main] com.tmall.marketing.dingdingrobot.DingdingRobotApplication : Starting DingdingRobotApplication on localhost with PID 76228 (/Users/tjq/Documents/code/DingDing-Robot/target/classes started by tjq in /Users/tjq/Documents/code/DingDing-Robot)
+2020-07-01 09:25:13.610 INFO  --- [           main] com.tmall.marketing.dingdingrobot.DingdingRobotApplication : No active profile set, falling back to default profiles: default
+2020-07-01 09:25:14.354 INFO  --- [           main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer : Tomcat initialized with port(s): 7777 (http)
+2020-07-01 09:25:14.370 INFO  --- [           main] org.apache.coyote.http11.Http11NioProtocol : Initializing ProtocolHandler ["http-nio-7777"]
+2020-07-01 09:25:14.379 INFO  --- [           main] org.apache.catalina.core.StandardService : Starting service [Tomcat]
+2020-07-01 09:25:14.379 INFO  --- [           main] org.apache.catalina.core.StandardEngine : Starting Servlet engine: [Apache Tomcat/9.0.19]
+2020-07-01 09:25:14.452 INFO  --- [           main] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] : Initializing Spring embedded WebApplicationContext
+2020-07-01 09:25:14.452 INFO  --- [           main] org.springframework.web.context.ContextLoader : Root WebApplicationContext: initialization completed in 800 ms
+2020-07-01 09:25:14.630 INFO  --- [           main] org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor : Initializing ExecutorService 'applicationTaskExecutor'
+2020-07-01 09:25:14.730 INFO  --- [           main] org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler : Initializing ExecutorService 'taskScheduler'
+2020-07-01 09:25:14.754 INFO  --- [           main] org.apache.coyote.http11.Http11NioProtocol : Starting ProtocolHandler ["http-nio-7777"]
+2020-07-01 09:25:14.770 INFO  --- [           main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer : Tomcat started on port(s): 7777 (http) with context path ''
+2020-07-01 09:25:14.773 INFO  --- [           main] com.tmall.marketing.dingdingrobot.DingdingRobotApplication : Started DingdingRobotApplication in 1.509 seconds (JVM running for 2.366)
+2020-07-01 09:26:58.169 INFO  --- [       Thread-2] org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler : Shutting down ExecutorService 'taskScheduler'
+2020-07-01 09:26:58.171 INFO  --- [       Thread-2] org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor : Shutting down ExecutorService 'applicationTaskExecutor'

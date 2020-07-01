@@ -12,7 +12,7 @@ public class SimpleMessageController {
     public ResultDTO<String> sendSimpleMsg(String msg,String atList){
         ResultDTO<String> res;
         try {
-            res = MessageHelper.sendTextMsgToXiaoDai(msg,atList);
+            res = MessageHelper.sendTextMsgToXiaoDai(msg, atList, MessageHelper.DAI_CLIENT);
         }catch (Exception e){
             res=ResultDTO.failed(e.getMessage());
         }

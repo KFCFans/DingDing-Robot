@@ -62,7 +62,7 @@ public class EatingSchedule {
         }
         list.add(new MessageHelper.MarkDownEntity("觅食人员",members));
 
-        MessageHelper.sendMarkDownMsgToXiaoDai("小呆觅食助手",list);
+        MessageHelper.sendMarkDownMsgToXiaoDai("小呆觅食助手", list, MessageHelper.DAI_CLIENT);
 
         // 记录日志方便统计
         log.info("推荐地点:{}[{}]|人员:{}",restaurant.getIndex(),restaurant.getDescription(),members);
@@ -71,14 +71,12 @@ public class EatingSchedule {
         CommonFields.willPresent[0]=true;
         CommonFields.willPresent[1]=true;
         // 中午触发，重置代表晚上，默认不一起吃。晚上触发，重置代表中午，默认一起吃。
-        CommonFields.willPresent[2]=hour<=11?false:true;
+        CommonFields.willPresent[2]= hour > 11;
     }
 
     // 每天早上5点清空点击信息
     @Scheduled(cron = "0 0 5 * * ? ")
     public void initWillPresent(){
-        for (int i=0;i<CommonFields.willPresent.length;i++){
-            CommonFields.willPresent[i]=true;
-        }
+        Arrays.fill(CommonFields.willPresent, true);
     }
 }

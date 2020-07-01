@@ -1,6 +1,5 @@
 package com.tmall.marketing.dingdingrobot;
 
-import com.google.common.base.Splitter;
 import com.tmall.marketing.dingdingrobot.model.WeatherDO;
 import com.tmall.marketing.dingdingrobot.util.EatingHelper;
 import com.tmall.marketing.dingdingrobot.util.MessageHelper;
@@ -12,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
-import java.util.Map;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -45,7 +43,7 @@ public class DingdingRobotApplicationTests {
         List<MessageHelper.MarkDownEntity> list= Lists.newArrayList();
         list.add(new MessageHelper.MarkDownEntity("哈啊哈哈","打算的撒打算打算"));
         list.add(new MessageHelper.MarkDownEntity("哈啊哈哈2","打算的撒打算打算2"));
-        MessageHelper.sendMarkDownMsgToXiaoDai("我是小呆",list);
+        MessageHelper.sendMarkDownMsgToXiaoDai("我是小呆" ,list, MessageHelper.DAI_CLIENT);
 
     }
 

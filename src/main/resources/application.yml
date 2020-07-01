@@ -5,3 +5,12 @@ spring:
   application:
     name: Eating-Helper
 
+  datasource:
+    username: root
+    password: No1Bug2Please3!
+    url: jdbc:mysql://remotehost:3306/powerjob-daily?useUnicode=true&characterEncoding=UTF-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false

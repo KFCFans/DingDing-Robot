@@ -45,7 +45,7 @@ public class EatingHelper {
     public static Restaurant whereToEat(WeatherDO weatherDO, boolean isAM){
 
         if (weatherDO==null){
-            MessageHelper.sendTextMsgToXiaoDai("获取天气失败！",null);
+            MessageHelper.sendTextMsgToXiaoDai("获取天气失败！",null, MessageHelper.DAI_CLIENT);
             return calWhere2Eat(isAM);
         }
         // 如果不下雨，全随机

@@ -17,6 +17,9 @@ import java.util.stream.Collectors;
 @Slf4j
 public class MessageHelper {
 
+    public static final DingTalkClient DAI_CLIENT = new DefaultDingTalkClient(CommonFields.OAIP_ADDRESS);
+    public static final DingTalkClient DAI4PJ_CLIENT = new DefaultDingTalkClient(CommonFields.POWERJOB_ADDRESS);
+
     @Data
     @AllArgsConstructor
     public static class MarkDownEntity{
@@ -28,11 +31,9 @@ public class MessageHelper {
      * 让小呆发送简单文本消息
      * @param msg 需要发送的消息
      * @param atList @人的名单，用逗号隔开，如12345678900,12345678901
-     * @throws Exception 抛出异常让上层处理
      * @return 发送结果
      */
-    public static ResultDTO<String> sendTextMsgToXiaoDai(String msg, String atList){
-        DingTalkClient client = new DefaultDingTalkClient(CommonFields.OAIP_ADDRESS);
+    public static ResultDTO<String> sendTextMsgToXiaoDai(String msg, String atList, DingTalkClient client) {
         OapiRobotSendRequest request = new OapiRobotSendRequest();
         request.setMsgtype("text");
         OapiRobotSendRequest.Text text = new OapiRobotSendRequest.Text();
@@ -72,8 +73,8 @@ public class MessageHelper {
      * @param entities 小标题+内容
      * @return 结果
      */
-    public static ResultDTO<String> sendMarkDownMsgToXiaoDai(String title, List<MarkDownEntity> entities){
-        DingTalkClient client = new DefaultDingTalkClient(CommonFields.OAIP_ADDRESS);
+    public static ResultDTO<String> sendMarkDownMsgToXiaoDai(String title, List<MarkDownEntity> entities, DingTalkClient client) {
+
         OapiRobotSendRequest request = new OapiRobotSendRequest();
         request.setMsgtype("markdown");
         OapiRobotSendRequest.Markdown markdown = new OapiRobotSendRequest.Markdown();
