@@ -67,7 +67,7 @@ public class ResetService {
         appInfoRepository.saveAndFlush(appInfo);
     }
 
-    @Scheduled(cron = "0 0/5 * * * ? ")
+    @Scheduled(cron = "0 0/1 * * * ? ")
     public void resetContainer() {
 
         ContainerInfoDO container = new ContainerInfoDO();
@@ -86,7 +86,7 @@ public class ResetService {
         containerInfoRepository.saveAndFlush(container);
     }
 
-    @Scheduled(cron = "0 0/30 * * * ? ")
+    @Scheduled(cron = "0 0/3 * * * ? ")
     public void resetJobs() {
 
         // JOB1: CRON-单机
@@ -146,7 +146,7 @@ public class ResetService {
         jobInfoRepository.flush();
     }
 
-    @Scheduled(cron = "0 0/30 * * * ? ")
+    @Scheduled(cron = "0 0/3 * * * ? ")
     public void resetWorkflow() {
         // A -> B -> C -> D -> E
         WorkflowInfoDO line = newWorkflow(1L, "A -> B -> C -> D -> E");
