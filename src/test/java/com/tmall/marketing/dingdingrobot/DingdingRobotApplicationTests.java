@@ -1,6 +1,6 @@
 package com.tmall.marketing.dingdingrobot;
 
-import com.tmall.marketing.dingdingrobot.dai.EatingSchedule;
+import com.tmall.marketing.dingdingrobot.dai.DaiScheduler;
 import com.tmall.marketing.dingdingrobot.dai.model.Weather;
 import com.tmall.marketing.dingdingrobot.dai.service.EatingRecommendService;
 import com.tmall.marketing.dingdingrobot.common.utils.MessageHelper;
@@ -20,7 +20,7 @@ import java.util.Objects;
 public class DingdingRobotApplicationTests {
 
     @Resource
-    private EatingSchedule eatingSchedule;
+    private DaiScheduler daiScheduler;
 
     @Test
     public void contextLoads() {
@@ -56,7 +56,7 @@ public class DingdingRobotApplicationTests {
 
     @Test
     public void testSendRecommend() {
-        eatingSchedule.sendEatingMsg();
+        daiScheduler.sendEatingMsg();
     }
 
 }

@@ -5,6 +5,7 @@ import com.tmall.marketing.dingdingrobot.dai.model.Weather;
 import com.tmall.marketing.dingdingrobot.common.CommonFields;
 import com.tmall.marketing.dingdingrobot.dai.service.EatingRecommendService;
 import com.tmall.marketing.dingdingrobot.common.utils.MessageHelper;
+import com.tmall.marketing.dingdingrobot.dai.service.PoetryService;
 import com.tmall.marketing.dingdingrobot.dai.service.WeatherService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -18,7 +19,7 @@ import java.util.List;
 
 @Slf4j
 @Component
-public class EatingSchedule {
+public class DaiScheduler {
 
     @Scheduled(cron = "0 45 11,17 * * ?")
     public void sendEatingMsg() {
@@ -40,9 +41,11 @@ public class EatingSchedule {
 
         // 添加吃饭地点
         EatingRecommendService.Restaurant restaurant = EatingRecommendService.whereToEat(weather, hour <= 11);
-        list.add(new MessageHelper.MarkDownEntity("今日餐厅",restaurant.getDescription()));
+        list.add(new MessageHelper.MarkDownEntity("今日餐厅", restaurant.getDescription()));
         // 添加天气预报,eg:阴,22度,东南风1级,相对湿度57%
         list.add(new MessageHelper.MarkDownEntity("天气播报", weather == null ? "N/A" : weather.getXiaoDaiWeather()));
+        // 每日一句
+        list.add(new MessageHelper.MarkDownEntity("每日一句", PoetryService.fetchPoetry().mini()));
 
         MessageHelper.sendMarkDownMsg("小呆觅食助手", list, MessageHelper.DAI_CLIENT);
     }

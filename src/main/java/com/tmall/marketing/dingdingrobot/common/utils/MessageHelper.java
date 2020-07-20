@@ -88,6 +88,12 @@ public class MessageHelper {
         }
         markdown.setText(mdBuilder.toString());
         request.setMarkdown(markdown);
+
+        // 默认 @All
+        OapiRobotSendRequest.At at = new OapiRobotSendRequest.At();
+        at.setIsAtAll(true);
+        request.setAt(at);
+
         OapiRobotSendResponse response;
         try {
             response = client.execute(request);
