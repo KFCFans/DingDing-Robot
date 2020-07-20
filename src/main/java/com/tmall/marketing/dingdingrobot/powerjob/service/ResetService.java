@@ -45,7 +45,7 @@ public class ResetService {
     }
 
     // 强制 id 为 1 的 app 为示例 app
-    @Scheduled(cron = "0 0/1 * * * ? ")
+    @Scheduled(cron = "0 0/3 * * * ? ")
     public void resetAppName() {
 
         Optional<AppInfoDO> appInfoOpt = appInfoRepository.findById(1L);
@@ -67,7 +67,7 @@ public class ResetService {
         appInfoRepository.saveAndFlush(appInfo);
     }
 
-    @Scheduled(cron = "0 0/1 * * * ? ")
+    @Scheduled(cron = "0 0/5 * * * ? ")
     public void resetContainer() {
 
         ContainerInfoDO container = new ContainerInfoDO();
@@ -86,28 +86,28 @@ public class ResetService {
         containerInfoRepository.saveAndFlush(container);
     }
 
-    @Scheduled(cron = "0 0/3 * * * ? ")
+    @Scheduled(cron = "0 0/10 * * * ? ")
     public void resetJobs() {
 
         // JOB1: CRON-单机
-        JobInfoDO cronStandalone = newJob(1L, "CRON - Standalone");
+        JobInfoDO cronStandalone = newJob(1L, "CRON-Standalone");
         jobInfoRepository.save(cronStandalone);
 
         // Job2: CRON-广播
-        JobInfoDO cronBroadcast = newJob(2L, "CRON - Broadcast");
+        JobInfoDO cronBroadcast = newJob(2L, "CRON-Broadcast");
         cronBroadcast.setProcessorInfo("1#cn.edu.zju.oms.container.ContainerBroadcastProcessor");
         cronBroadcast.setExecuteType(2);
         jobInfoRepository.save(cronBroadcast);
 
         // Job3: CRON-MapReduce
-        JobInfoDO cronMR = newJob(3L, "CRON - MapReduce");
+        JobInfoDO cronMR = newJob(3L, "CRON-MapReduce");
         cronMR.setJobParams("{\"batchSize\": 100, \"batchNum\": 2}");
         cronMR.setProcessorInfo("1#cn.edu.zju.oms.container.ContainerMRProcessor");
         cronMR.setExecuteType(3);
         jobInfoRepository.save(cronMR);
 
         // Job4: FixedRate-SHELL
-        JobInfoDO fixedShell = newJob(4L, "FixedRate - SHELL");
+        JobInfoDO fixedShell = newJob(4L, "FixedRate-SHELL");
         fixedShell.setTimeExpressionType(3);
         fixedShell.setTimeExpression("10000");
         fixedShell.setProcessorType(2);
@@ -115,7 +115,7 @@ public class ResetService {
         jobInfoRepository.save(fixedShell);
 
         // Job5: FixedDelay - SHELL
-        JobInfoDO fixedDelayShell = newJob(5L, "FixedDelay - SHELL");
+        JobInfoDO fixedDelayShell = newJob(5L, "FixedDelay-SHELL");
         fixedDelayShell.setTimeExpressionType(4);
         fixedDelayShell.setTimeExpression("10000");
         fixedDelayShell.setProcessorType(2);
@@ -123,7 +123,7 @@ public class ResetService {
         jobInfoRepository.save(fixedDelayShell);
 
         // Job6: API Job
-        JobInfoDO apiJob = newJob(6L, "API - Standalone");
+        JobInfoDO apiJob = newJob(6L, "API-Standalone");
         apiJob.setTimeExpression(null);
         apiJob.setTimeExpressionType(1);
         jobInfoRepository.save(apiJob);
@@ -138,7 +138,7 @@ public class ResetService {
         }
 
         // Job12: FixedRate-单机
-        JobInfoDO fixedStandalone = newJob(12L, "FixedRate - Standalone");
+        JobInfoDO fixedStandalone = newJob(12L, "FixedRate-Standalone");
         fixedStandalone.setTimeExpressionType(3);
         fixedStandalone.setTimeExpression("30000");
         jobInfoRepository.save(fixedStandalone);
