@@ -1,8 +1,8 @@
-package com.tmall.marketing.dingdingrobot.model;
+package com.tmall.marketing.dingdingrobot.dai.model;
 
 import java.util.List;
 
-public class WeatherDO {
+public class Weather {
     private List<HeWeather6Bean> HeWeather6;
 
     public List<HeWeather6Bean> getHeWeather6() {
@@ -347,7 +347,7 @@ public class WeatherDO {
         if(HeWeather6==null||HeWeather6.size()==0){
             return -1;
         }
-        return Integer.valueOf(HeWeather6.get(0).getNow().cond_code);
+        return Integer.parseInt(HeWeather6.get(0).getNow().cond_code);
     }
 
     // 获取温度
@@ -362,21 +362,15 @@ public class WeatherDO {
     public boolean isRainOrSnow(){
         int code=getWeatherCode();
         // 飓风/雨/雪/沙尘暴/雾霾等不适合出门的天气
-        if (code>=211&&code<=515){
-            return true;
-        }
-        return false;
+        return code >= 211 && code <= 515;
     }
 
     // 获取小呆需要播报的天气预报信息
     public String getXiaoDaiWeather(){
-        StringBuilder sb=new StringBuilder();
-        sb.append(getWeather()).append("，");
-        sb.append(getTempeture()).append("度，");
-        sb.append(HeWeather6.get(0).getNow().wind_dir).append(HeWeather6.get(0).getNow().wind_sc).append("级，");
-        sb.append("相对湿度").append(HeWeather6.get(0).getNow().hum).append("%");
 
-        return sb.toString();
+        return getWeather() + "，" +
+                getTempeture() + "度，" +
+                HeWeather6.get(0).getNow().wind_dir + HeWeather6.get(0).getNow().wind_sc + "级，" +
+                "相对湿度" + HeWeather6.get(0).getNow().hum + "%";
     }
-
 }

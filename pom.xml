@@ -78,6 +78,13 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.16</version>
         </dependency>
+
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.3.9</version>
+        </dependency>
+
         <dependency>
             <groupId>com.dingtalk</groupId>
             <artifactId>taobao-sdk-java-auto_1479188381469-20200630</artifactId>

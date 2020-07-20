@@ -52,7 +52,7 @@
         <Logger name="org.springframework" level="INFO"/>
 
         <!--小呆专用-->
-        <Logger name="com.tmall.marketing.dingdingrobot.schedule.EatingSchedule" level="all" additivity="false">
+        <Logger name="com.tmall.marketing.dingdingrobot.dai.EatingSchedule" level="all" additivity="false">
             <appender-ref ref="DaiRollingFile"/>
         </Logger>
 

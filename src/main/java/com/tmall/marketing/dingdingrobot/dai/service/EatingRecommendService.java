@@ -1,12 +1,13 @@
-package com.tmall.marketing.dingdingrobot.util;
+package com.tmall.marketing.dingdingrobot.dai.service;
 
 
-import com.tmall.marketing.dingdingrobot.model.WeatherDO;
+import com.tmall.marketing.dingdingrobot.common.utils.MessageHelper;
+import com.tmall.marketing.dingdingrobot.dai.model.Weather;
 
 import java.util.EnumSet;
 import java.util.Random;
 
-public class EatingHelper {
+public class EatingRecommendService {
 
     public enum Restaurant{
         MilkingD(5,"麦金地餐厅"),
@@ -42,14 +43,14 @@ public class EatingHelper {
         }
     }
 
-    public static Restaurant whereToEat(WeatherDO weatherDO, boolean isAM){
+    public static Restaurant whereToEat(Weather weather, boolean isAM){
 
-        if (weatherDO==null){
-            MessageHelper.sendTextMsgToXiaoDai("获取天气失败！",null, MessageHelper.DAI_CLIENT);
+        if (weather ==null){
+            MessageHelper.sendTextMsg("获取天气失败！",null, MessageHelper.DAI_CLIENT);
             return calWhere2Eat(isAM);
         }
         // 如果不下雨，全随机
-        if (!weatherDO.isRainOrSnow()){
+        if (!weather.isRainOrSnow()){
             return calWhere2Eat(isAM);
         }
         // 如果下雨，鉴于鄙人带路的能力，只去就近的两个食堂吃饭
@@ -60,8 +61,6 @@ public class EatingHelper {
             tmp=calWhere2Eat(isAM);
         }
         return tmp;
-
-
     }
 
     /**

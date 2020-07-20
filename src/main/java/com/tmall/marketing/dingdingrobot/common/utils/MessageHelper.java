@@ -1,10 +1,11 @@
-package com.tmall.marketing.dingdingrobot.util;
+package com.tmall.marketing.dingdingrobot.common.utils;
 
 import com.dingtalk.api.DefaultDingTalkClient;
 import com.dingtalk.api.DingTalkClient;
 import com.dingtalk.api.request.OapiRobotSendRequest;
 import com.dingtalk.api.response.OapiRobotSendResponse;
-import com.tmall.marketing.dingdingrobot.model.ResultDTO;
+import com.tmall.marketing.dingdingrobot.common.CommonFields;
+import com.tmall.marketing.dingdingrobot.common.ResultDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +34,7 @@ public class MessageHelper {
      * @param atList @人的名单，用逗号隔开，如12345678900,12345678901
      * @return 发送结果
      */
-    public static ResultDTO<String> sendTextMsgToXiaoDai(String msg, String atList, DingTalkClient client) {
+    public static ResultDTO<String> sendTextMsg(String msg, String atList, DingTalkClient client) {
         OapiRobotSendRequest request = new OapiRobotSendRequest();
         request.setMsgtype("text");
         OapiRobotSendRequest.Text text = new OapiRobotSendRequest.Text();
@@ -73,7 +74,7 @@ public class MessageHelper {
      * @param entities 小标题+内容
      * @return 结果
      */
-    public static ResultDTO<String> sendMarkDownMsgToXiaoDai(String title, List<MarkDownEntity> entities, DingTalkClient client) {
+    public static ResultDTO<String> sendMarkDownMsg(String title, List<MarkDownEntity> entities, DingTalkClient client) {
 
         OapiRobotSendRequest request = new OapiRobotSendRequest();
         request.setMsgtype("markdown");

@@ -1,4 +1,4 @@
-package com.tmall.marketing.dingdingrobot.model;
+package com.tmall.marketing.dingdingrobot.common;
 
 import lombok.Data;
 

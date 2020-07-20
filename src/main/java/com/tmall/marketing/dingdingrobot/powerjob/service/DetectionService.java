@@ -2,7 +2,7 @@ package com.tmall.marketing.dingdingrobot.powerjob.service;
 
 import com.google.common.collect.Lists;
 import com.tmall.marketing.dingdingrobot.common.ConfigCenter;
-import com.tmall.marketing.dingdingrobot.util.MessageHelper;
+import com.tmall.marketing.dingdingrobot.common.utils.MessageHelper;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
@@ -62,6 +62,6 @@ public class DetectionService {
         String title = "PowerJob 服务器宕机警报";
         contents.add(new MessageHelper.MarkDownEntity("请求地址", url));
 
-        MessageHelper.sendMarkDownMsgToXiaoDai(title, contents, MessageHelper.DAI4PJ_CLIENT);
+        MessageHelper.sendMarkDownMsg(title, contents, MessageHelper.DAI4PJ_CLIENT);
     }
 }
