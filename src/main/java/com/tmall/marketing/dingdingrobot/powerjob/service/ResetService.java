@@ -198,7 +198,7 @@ public class ResetService {
         WorkflowInfoDO workflow = new WorkflowInfoDO();
         workflow.setId(id);
         workflow.setWfName(name);
-        workflow.setWfDescription("samples, please do not modify, thank you~");
+        workflow.setWfDescription("samples ~");
 
         workflow.setAppId(1L);
         workflow.setMaxWfInstanceNum(1);

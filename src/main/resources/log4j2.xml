@@ -3,7 +3,10 @@
 <!--status：设置log4j2自身的日志输出级别，低于warn的不输出;monitorInterval：每个多久重新加载配置文件-->
 <Configuration status="warn" monitorInterval="3600">
 
-    <property name="LOG_PATH" value="${user.home}/robot/logs"/>
+    <Properties>
+        <!--自定义一些常量，之后使用${变量名}引用-->
+        <Property name="LOG_PATH">${sys:user.home}/robot/logs</Property>
+    </Properties>
 
     <Appenders>
         <!--输出到控制台的配置-->
