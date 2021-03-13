@@ -1,6 +1,5 @@
 package com.tmall.marketing.dingdingrobot.powerjob.persistence.model;
 
-import com.github.kfcfans.powerjob.common.enums.InstanceStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
