@@ -72,12 +72,12 @@ public class ResetService {
         ContainerInfoDO container = new ContainerInfoDO();
         container.setId(1L);
         container.setAppId(1L);
-        container.setContainerName("gitee-container");
+        container.setContainerName("demo-container");
         container.setStatus(1);
         container.setVersion(ConfigCenter.powerjobContainerVersion);
         container.setLastDeployTime(new Date());
         container.setSourceType(2);
-        container.setSourceInfo("{\"repo\":\"https://gitee.com/KFCFans/OhMyScheduler-Container-Template\",\"branch\":\"master\",\"username\":\"\",\"password\":\"\"}");
+        container.setSourceInfo("{\"repo\":\"https://gitee.com/KFCFans/OhMyScheduler-Container-Template\",\"branch\":\"v4\",\"username\":\"\",\"password\":\"\"}");
 
         container.setGmtModified(new Date());
         container.setGmtCreate(new Date());
