@@ -1,14 +1,9 @@
 package com.tmall.marketing.dingdingrobot.powerjob.service;
 
+import com.google.common.collect.Lists;
 import com.tmall.marketing.dingdingrobot.common.ConfigCenter;
-import com.tmall.marketing.dingdingrobot.powerjob.persistence.model.AppInfoDO;
-import com.tmall.marketing.dingdingrobot.powerjob.persistence.model.ContainerInfoDO;
-import com.tmall.marketing.dingdingrobot.powerjob.persistence.model.JobInfoDO;
-import com.tmall.marketing.dingdingrobot.powerjob.persistence.model.WorkflowInfoDO;
-import com.tmall.marketing.dingdingrobot.powerjob.persistence.repository.AppInfoRepository;
-import com.tmall.marketing.dingdingrobot.powerjob.persistence.repository.ContainerInfoRepository;
-import com.tmall.marketing.dingdingrobot.powerjob.persistence.repository.JobInfoRepository;
-import com.tmall.marketing.dingdingrobot.powerjob.persistence.repository.WorkflowInfoRepository;
+import com.tmall.marketing.dingdingrobot.powerjob.persistence.model.*;
+import com.tmall.marketing.dingdingrobot.powerjob.persistence.repository.*;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +28,8 @@ public class ResetService {
     private ContainerInfoRepository containerInfoRepository;
     @Resource
     private WorkflowInfoRepository workflowInfoRepository;
+    @Resource
+    private WorkflowNodeInfoRepository workflowNodeInfoRepository;
 
     /**
      * 调用所有重置方法（用于初始化表数据或测试）
@@ -41,6 +38,7 @@ public class ResetService {
         resetAppName();
         resetContainer();
         resetJobs();
+        resetWorkflow();
     }
 
     // 强制 id 为 1 的 app 为示例 app
@@ -106,14 +104,15 @@ public class ResetService {
         JobInfoDO officialPythonProcessor = newJob(3L, "[CRON] Official Python Processor");
         officialPythonProcessor.setProcessorType(1);
         officialPythonProcessor.setProcessorInfo("tech.powerjob.official.processors.impl.script.PythonProcessor");
-        officialPythonProcessor.setJobParams("java -version");
+        officialPythonProcessor.setJobParams("print 'welcome to use PowerJob~'");
         jobInfoRepository.saveAndFlush(officialPythonProcessor);
 
-        // Job4: 官方文件清理处理器
+        // Job4: 官方文件清理处理器（Disable）
         JobInfoDO officialCleanupProcessor = newJob(4L, "[CRON] Official FileCleanUp Processor");
         officialCleanupProcessor.setProcessorType(1);
         officialCleanupProcessor.setProcessorInfo("tech.powerjob.official.processors.impl.FileCleanupProcessor");
-        officialCleanupProcessor.setJobParams("[{\"filePattern\":\"(shell|python)_[0-9]*\\\\.(sh|py)\",\"dirPath\":\"/\",\"retentionTime\":24}]");
+        officialCleanupProcessor.setJobParams("[{\"filePattern\":\"(shell|python)_[0-9]*\\\\.(sh|py)\",\"dirPath\":\"/root/docker\",\"retentionTime\":24}]");
+        officialCleanupProcessor.setStatus(2);
         jobInfoRepository.saveAndFlush(officialCleanupProcessor);
 
 
@@ -196,23 +195,60 @@ public class ResetService {
         return base;
     }
 
-    private static WorkflowInfoDO newWorkflow(Long id, String name) {
-        WorkflowInfoDO workflow = new WorkflowInfoDO();
-        workflow.setId(id);
-        workflow.setWfName(name);
-        workflow.setWfDescription("samples ~");
+    @Scheduled(cron = "0 0/13 * * * ? ")
+    private void resetWorkflow() {
 
-        workflow.setAppId(1L);
-        workflow.setMaxWfInstanceNum(1);
+        // GraphA: A -> B -> C
+        WorkflowNodeInfoDO nodeA = newNode(1L, 11L, "Node-A", 1L);
+        WorkflowNodeInfoDO nodeB = newNode(2L, 12L, "Node-B", 1L);
+        WorkflowNodeInfoDO nodeC = newNode(3L, 13L, "Node-C", 1L);
+        workflowNodeInfoRepository.saveAll(Lists.newArrayList(nodeA, nodeB, nodeC));
+        WorkflowInfoDO workflowA = newWorkflow(1L, "A -> B -> C", "{\"edges\":[{\"from\":1,\"to\":2},{\"from\":2,\"to\":3}],\"nodes\":[{\"nodeId\":1},{\"nodeId\":2},{\"nodeId\":3}]}");
+        workflowInfoRepository.saveAndFlush(workflowA);
 
-        workflow.setTimeExpressionType(2);
-        workflow.setTimeExpression("0 0/5 * * * ? *");
-        workflow.setNextTriggerTime(System.currentTimeMillis() + 60000);
 
-        workflow.setGmtCreate(new Date());
-        workflow.setGmtModified(new Date());
-        workflow.setStatus(1);
+        WorkflowNodeInfoDO nodeAA = newNode(4L, 11L, "Node-A", 2L);
+        WorkflowNodeInfoDO nodeBB = newNode(5L, 12L, "Node-B", 2L);
+        WorkflowNodeInfoDO nodeCC = newNode(6L, 13L, "Node-C", 2L);
+        nodeCC.setEnable(false);
+        WorkflowNodeInfoDO nodeDD = newNode(7L, 14L, "Node-D", 2L);
+        nodeDD.setNodeParams("failed");
+        nodeDD.setSkipWhenFailed(true);
+        WorkflowNodeInfoDO nodeEE = newNode(8L, 15L, "Node-E", 2L);
+        workflowNodeInfoRepository.saveAll(Lists.newArrayList(nodeAA, nodeBB, nodeCC, nodeDD, nodeEE));
+        WorkflowInfoDO workflowB = newWorkflow(2L, "complexDAG", "{\"edges\":[{\"from\":4,\"to\":5},{\"from\":4,\"to\":6},{\"from\":4,\"to\":7},{\"from\":5,\"to\":8},{\"from\":6,\"to\":8},{\"from\":7,\"to\":8}],\"nodes\":[{\"nodeId\":4},{\"nodeId\":5},{\"nodeId\":6},{\"nodeId\":7},{\"nodeId\":8}]}");
+        workflowInfoRepository.saveAndFlush(workflowB);
+    }
 
-        return workflow;
+    private static WorkflowNodeInfoDO newNode(Long nodeId, Long jobId, String name, Long workflowId) {
+        WorkflowNodeInfoDO node = new WorkflowNodeInfoDO();
+        node.setAppId(1L);
+        node.setId(nodeId);
+        node.setJobId(jobId);
+        node.setGmtCreate(new Date());
+        node.setGmtModified(new Date());
+        node.setNodeName(name);
+        node.setWorkflowId(workflowId);
+        node.setEnable(true);
+        node.setSkipWhenFailed(false);
+        node.setType(1);
+        return node;
+    }
+
+    private static WorkflowInfoDO newWorkflow(Long workflowId, String name, String dag) {
+        WorkflowInfoDO workflowA = new WorkflowInfoDO();
+        workflowA.setAppId(1L);
+        workflowA.setGmtCreate(new Date());
+        workflowA.setGmtModified(new Date());
+        workflowA.setId(workflowId);
+        workflowA.setWfName(name);
+        workflowA.setStatus(1);
+        workflowA.setMaxWfInstanceNum(1);
+        workflowA.setNextTriggerTime(System.currentTimeMillis() + 5000);
+        workflowA.setWfDescription("welcome to use PowerJob~");
+        workflowA.setPeDAG(dag);
+        workflowA.setTimeExpressionType(2);
+        workflowA.setTimeExpression("0 0/5 * * * ? *");
+        return workflowA;
     }
 }
