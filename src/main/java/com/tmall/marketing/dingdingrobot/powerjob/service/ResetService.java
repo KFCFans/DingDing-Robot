@@ -113,6 +113,7 @@ public class ResetService {
         officialCleanupProcessor.setProcessorInfo("tech.powerjob.official.processors.impl.FileCleanupProcessor");
         officialCleanupProcessor.setJobParams("[{\"filePattern\":\"(shell|python)_[0-9]*\\\\.(sh|py)\",\"dirPath\":\"/root/docker\",\"retentionTime\":24}]");
         officialCleanupProcessor.setStatus(2);
+        officialCleanupProcessor.setExecuteType(2);
         jobInfoRepository.saveAndFlush(officialCleanupProcessor);
 
 
