@@ -90,7 +90,7 @@ public class ResetService {
         JobInfoDO officialHttpProcessor = newJob(1L, "[CRON] Official Http Processor");
         officialHttpProcessor.setProcessorType(1);
         officialHttpProcessor.setProcessorInfo("tech.powerjob.official.processors.impl.HttpProcessor");
-        officialHttpProcessor.setJobParams("{\"method\":\"GET\",\"url\":\"http://www.taobao.com\"}");
+        officialHttpProcessor.setJobParams("{\"method\":\"GET\",\"url\":\"http://www.baidu.com\"}");
         jobInfoRepository.saveAndFlush(officialHttpProcessor);
 
         // JOB2：官方 SHELL 处理器
